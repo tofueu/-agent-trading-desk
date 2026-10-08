@@ -137,7 +137,7 @@ textarea.form-control{resize:vertical;min-height:48px}
         </div>
 
         <!-- Task Creation Form -->
-        <form class="task-form" id="dispatchForm" onsubmit="handleDispatchTask(event)">
+        <form class="task-form" id="dispatchForm">
           <div class="form-group">
             <label>TASK TITLE / 任務名稱</label>
             <input type="text" class="form-control" id="taskTitleInput" placeholder="例如：分析市場波動度或優化前端組件..." required>
@@ -184,7 +184,7 @@ textarea.form-control{resize:vertical;min-height:48px}
               <div class="task-meta">專案：金融交易量化模型 · 指派：Claude 3.5 Sonnet (AI)</div>
             </div>
             <span class="ai-status-badge demo">示範運行中</span>
-            <button class="btn" style="font-size:7px;padding:3px 5px" onclick="completeTask(this, '回測策略風險參數感應度分析')">完成</button>
+            <button class="btn task-complete-btn" style="font-size:7px;padding:3px 5px">完成</button>
           </div>
           <div class="task-item">
             <span class="task-badge pending">PENDING</span>
@@ -193,7 +193,7 @@ textarea.form-control{resize:vertical;min-height:48px}
               <div class="task-meta">專案：全棧 Web 控制台 · 指派：GPT-4o (AI)</div>
             </div>
             <span class="ai-status-badge offline">未連線 API</span>
-            <button class="btn" style="font-size:7px;padding:3px 5px" onclick="completeTask(this, '寫入多語言 API 接口文檔模組')">完成</button>
+            <button class="btn task-complete-btn" style="font-size:7px;padding:3px 5px">完成</button>
           </div>
           <div class="task-item">
             <span class="task-badge pending">PENDING</span>
@@ -202,7 +202,7 @@ textarea.form-control{resize:vertical;min-height:48px}
               <div class="task-meta">專案：多 Agent 協同研究 · 指派：Alice - 策略研究員</div>
             </div>
             <span class="ai-status-badge online">人員待處理</span>
-            <button class="btn" style="font-size:7px;padding:3px 5px" onclick="completeTask(this, '檢視團隊週度 Task Progress 報告')">完成</button>
+            <button class="btn task-complete-btn" style="font-size:7px;padding:3px 5px">完成</button>
           </div>
         </div>
       </article>
@@ -215,7 +215,7 @@ textarea.form-control{resize:vertical;min-height:48px}
               <h2>Control Center Activity Log</h2>
               <p>AI 派送與控制中心即時動態事件</p>
             </div>
-            <button class="btn" onclick="clearAiLog()">Clear Log</button>
+            <button class="btn" id="clearAiLogBtn">Clear Log</button>
           </div>
           <div class="events" id="aiEvents">
             <div class="event">
@@ -503,6 +503,8 @@ function clearAiLog(){
   showToast('AI 控制中心紀錄已清除。');
 }
 
+$('#clearAiLogBtn').addEventListener('click', clearAiLog);
+
 function updateQueueCount(){
   const count = $('#aiTaskList').children.length;
   $('#aiQueueCount').innerHTML = count + ' <small>QUEUED</small>';
@@ -519,17 +521,35 @@ function handleDispatchTask(e){
 
   const item = document.createElement('div');
   item.className = 'task-item';
-  item.innerHTML = `
-    <span class="task-badge pending">PENDING</span>
-    <div>
-      <div class="task-title"></div>
-      <div class="task-meta"></div>
-    </div>
-    <span class="ai-status-badge offline">示範佇列 · 未連線 API</span>
-    <button class="btn" style="font-size:7px;padding:3px 5px" onclick="completeTask(this, '${title.replace(/'/g, "\\'")}')">完成</button>
-  `;
-  item.querySelector('.task-title').textContent = title;
-  item.querySelector('.task-meta').textContent = `專案：${project} · 指派：${assignee}`;
+
+  const badgeSpan = document.createElement('span');
+  badgeSpan.className = 'task-badge pending';
+  badgeSpan.textContent = 'PENDING';
+
+  const contentDiv = document.createElement('div');
+  const titleDiv = document.createElement('div');
+  titleDiv.className = 'task-title';
+  titleDiv.textContent = title;
+  const metaDiv = document.createElement('div');
+  metaDiv.className = 'task-meta';
+  metaDiv.textContent = `專案：${project} · 指派：${assignee}`;
+  contentDiv.appendChild(titleDiv);
+  contentDiv.appendChild(metaDiv);
+
+  const statusSpan = document.createElement('span');
+  statusSpan.className = 'ai-status-badge offline';
+  statusSpan.textContent = '示範佇列 · 未連線 API';
+
+  const btn = document.createElement('button');
+  btn.className = 'btn task-complete-btn';
+  btn.style.fontSize = '7px';
+  btn.style.padding = '3px 5px';
+  btn.textContent = '完成';
+
+  item.appendChild(badgeSpan);
+  item.appendChild(contentDiv);
+  item.appendChild(statusSpan);
+  item.appendChild(btn);
 
   $('#aiTaskList').prepend(item);
   $('#taskTitleInput').value = '';
@@ -539,20 +559,34 @@ function handleDispatchTask(e){
   showToast(`任務「${title}」已加入示範派送佇列 (未連接 API)`);
 }
 
-function completeTask(btnEl, taskTitle){
+$('#dispatchForm').addEventListener('submit', handleDispatchTask);
+
+// Event delegation for completing tasks safely
+$('#aiTaskList').addEventListener('click', e => {
+  const btnEl = e.target.closest('.task-complete-btn');
+  if(!btnEl) return;
+
   const item = btnEl.closest('.task-item');
   if(!item) return;
+
+  const titleEl = item.querySelector('.task-title');
+  const taskTitle = titleEl ? titleEl.textContent : '未知任務';
+
   const badge = item.querySelector('.task-badge');
-  badge.className = 'task-badge done';
-  badge.textContent = 'DONE';
+  if(badge){
+    badge.className = 'task-badge done';
+    badge.textContent = 'DONE';
+  }
   const statusBadge = item.querySelector('.ai-status-badge');
-  statusBadge.className = 'ai-status-badge online';
-  statusBadge.textContent = '已完成';
+  if(statusBadge){
+    statusBadge.className = 'ai-status-badge online';
+    statusBadge.textContent = '已完成';
+  }
   btnEl.remove();
 
   logAi('SYSTEM', `任務標記完成：${taskTitle}`, 'DONE');
   showToast(`任務「${taskTitle}」已完成`);
-}
+});
 
 // Trading Console Mission Clock Logic
 function paintTimer(){ $('#timer').textContent=pad(Math.floor(seconds/60))+':'+pad(seconds%60)}
