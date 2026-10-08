@@ -2,36 +2,627 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f4f5f3">
-<title>Agent Desk — Trading Research Console</title>
+<title>Agent Desk — General AI Control Center & Trading Console</title>
 <style>
-:root{--paper:#f4f5f3;--card:#fff;--ink:#202521;--muted:#909791;--line:#e8ebe7;--green:#337d5e;--green-bg:#e9f3ec;--amber:#c78c4c;--red:#bb6866;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--sans:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",Arial,sans-serif}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:13px var(--sans)}button{font:inherit}button:focus-visible{outline:2px solid #6a9c7b;outline-offset:2px}.desk{max-width:1500px;margin:auto;padding:18px 22px 30px}.top{height:43px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #e4e7e3;padding-bottom:13px}.logo{width:23px;height:23px;border-radius:6px;background:#a5c846;display:grid;place-items:center;color:#23331e;font-weight:900;font-size:14px}.brand{font-weight:800;font-size:12px;letter-spacing:.04em}.brand em{font-style:normal;color:#b45c5d;font-family:var(--mono);font-size:9px;margin-left:4px}.top-right{margin-left:auto;display:flex;align-items:center;gap:17px}.preview{font:8px var(--mono);letter-spacing:.1em;color:#a67a44;background:#faf3e9;border:1px solid #f0e5d5;border-radius:20px;padding:5px 8px}.live{font:8px var(--mono);color:var(--green);background:var(--green-bg);border-radius:20px;padding:5px 9px;letter-spacing:.05em}.live:before{content:"";display:inline-block;width:6px;height:6px;background:#56a176;border-radius:50%;margin-right:5px}.top-time{font:9px var(--mono);color:#737a74}.top-actions{display:flex;gap:7px}.btn{cursor:pointer;border:1px solid var(--line);background:#fff;border-radius:5px;padding:6px 9px;color:#626a63;font-size:9px}.btn.dark{background:#2c4334;border-color:#2c4334;color:#fff}.btn:hover{filter:brightness(.97)}.page-title{margin:20px 0 12px;display:flex;align-items:end;justify-content:space-between}.page-title h1{font-size:18px;letter-spacing:-.04em;margin:0;font-weight:650}.page-title p{margin:4px 0 0;color:#9aa19b;font-size:9px}.page-title .hint{font:8px var(--mono);color:#a2a8a2;letter-spacing:.08em}.top-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.card{background:var(--card);border:1px solid var(--line);border-radius:7px;box-shadow:0 1px 4px #24382b08}.metric{height:96px;padding:11px 12px;position:relative;overflow:hidden}.metric label,.section-label{font:8px var(--mono);letter-spacing:.08em;color:#959c96;text-transform:uppercase}.metric .value{font:500 21px var(--mono);letter-spacing:-.06em;margin:10px 0 3px;color:#26322a}.metric .value small{font-size:11px;color:#6d776f;letter-spacing:0}.metric .sub{font-size:8px;color:#9ca39d}.gain{color:var(--green)!important}.metric .tag{position:absolute;right:10px;top:10px;font:7px var(--mono);color:#a0a69f;border:1px solid #edf0ed;border-radius:3px;padding:3px 4px}.mini-bars{position:absolute;right:9px;bottom:11px;display:flex;align-items:end;gap:2px;height:20px}.mini-bars i{display:block;width:3px;background:#cadccf;border-radius:2px;height:7px}.mini-bars i:nth-child(3n){height:15px;background:#86b291}.mini-bars i:nth-child(4n){height:11px;background:#ded2b7}.mission{display:flex;align-items:center;gap:12px}.mission .value{font-size:24px;margin:0 0 2px}.mission-controls{margin-left:auto;display:grid;gap:5px}.mission-controls .btn{padding:5px 7px;font-size:8px}.gate{display:flex;align-items:center;gap:9px;margin-top:9px}.gate-mark{width:29px;height:29px;border:1px solid #f0dedb;background:#fcf3f0;color:#bc6b68;border-radius:50%;display:grid;place-items:center;font-size:13px}.gate b{display:block;font:600 12px var(--mono);letter-spacing:.04em;color:#a75b59}.gate small{display:block;font-size:8px;color:#a2a8a2;margin-top:3px}.grid-main{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(330px,.9fr);gap:9px;margin-top:9px}.panel{padding:11px 12px}.panel-head{display:flex;align-items:start;justify-content:space-between;gap:10px}.panel-head h2{font-size:10px;margin:0;font-weight:650;letter-spacing:.01em}.panel-head p{font-size:8px;color:#9ca39d;margin:4px 0 0}.small-actions{display:flex;gap:3px}.small-actions button{font:8px var(--mono);color:#9aa19b;border:0;background:transparent;padding:3px 5px;cursor:pointer;border-radius:3px}.small-actions button.active{background:#edf3ed;color:#4b6f53}.chart-area{height:145px;position:relative;margin:8px 0 0 37px;padding-bottom:16px}.chart-area svg{width:100%;height:100%;display:block}.chart-y{position:absolute;left:-37px;top:2px;bottom:19px;display:flex;flex-direction:column;justify-content:space-between;font:7px var(--mono);color:#a5aca6}.chart-x{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;color:#a5aca6;font:7px var(--mono)}.chart-grid{stroke:#ecefeb;stroke-width:1;stroke-dasharray:3 4}.chart-line{stroke:#b8c5b8;stroke-width:1;stroke-dasharray:4 4}.chart-fill{fill:url(#area)}.chart-stroke{fill:none;stroke:#639273;stroke-width:1.8}.chart-end{fill:white;stroke:#639273;stroke-width:2}.legend{display:flex;align-items:center;gap:6px;border-top:1px solid #eff1ef;padding-top:7px;color:#929a93;font-size:8px}.legend i{width:6px;height:6px;background:#659273;border-radius:50%}.legend span:last-child{margin-left:auto;color:#a5aba6}.events{margin-top:8px}.event{display:grid;grid-template-columns:35px 37px 1fr auto;gap:7px;align-items:center;border-top:1px solid #f0f2ef;padding:8px 1px;font:8px var(--mono);color:#788079}.event:first-child{border-top:0}.event time{color:#9fa69f}.agent{font-weight:700}.agent.gem{color:#bf8c47}.agent.gpt{color:#548266}.agent.sys{color:#828b84}.event .msg{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#777f79}.event .state{color:#959c96;font-size:7px}.event .state.ok{color:#58876a}.ridge{margin-top:9px;padding:11px 12px}.ridge-body{display:grid;grid-template-columns:135px 1fr;gap:13px;margin-top:10px}.ridge-kpis{display:grid;grid-template-columns:1fr 1fr;align-content:start;gap:9px 6px}.ridge-kpis small{font-size:7px;color:#9ba29c;display:block}.ridge-kpis b{font:10px var(--mono);display:block;margin-top:4px;color:#5a635c}.ridge-kpis p{grid-column:1/-1;margin:0;font-size:7px;color:#a0a7a1;line-height:1.5}.ridge-graph{min-width:0}.ridge-graph svg{width:100%;height:105px;display:block}.ridge-lines path{fill:none;stroke:#c8cbc8;stroke-width:.9}.ridge-patch{fill:#d99a8b;fill-opacity:.28}.ridge-pin{fill:#b36558}.ridge-axis{display:flex;justify-content:space-between;color:#a5aba6;font:7px var(--mono)}.bottom{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px}.viz-panel{height:204px;overflow:hidden}.viz-content{display:grid;grid-template-columns:minmax(150px,1fr) 105px;gap:10px;align-items:center;margin-top:7px}.chord{width:100%;height:140px}.chord circle{fill:#fff;stroke:#e7e9e6;stroke-width:1}.chord .arc{fill:none;stroke:#c39a60;stroke-width:2}.chord .arc:nth-of-type(2n){stroke:#71a080}.chord .arc:nth-of-type(3n){stroke:#bc7471}.chord .link{fill:none;stroke:#cbd2cb;stroke-width:.8}.chord .node{fill:#729279;stroke:#fff;stroke-width:2}.chord text{font:6px var(--mono);fill:#858d87}.mini-table{font:8px var(--mono);color:#8a928b}.mini-table div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0f2ef}.mini-table b{color:#59645c;font-weight:500}.lattice-wrap{display:grid;grid-template-columns:1fr 105px;gap:8px;align-items:center;margin-top:7px}.lattice{width:100%;height:145px}.lattice line{stroke:#c6c9c6;stroke-width:.8}.lattice .cube2{stroke:#9c8cbb}.lattice .cube3{stroke:#c49ba1}.lattice circle{fill:#fff;stroke:#7c9b84;stroke-width:1}.lattice-stats div{padding:5px 0;border-bottom:1px solid #f0f2ef}.lattice-stats small{display:block;font-size:7px;color:#a1a8a2}.lattice-stats b{font:9px var(--mono);color:#626c64}.panel-foot{border-top:1px solid #eff1ef;margin-top:4px;padding-top:6px;display:flex;justify-content:space-between;color:#a0a7a1;font:7px var(--mono)}.disclaimer{margin:11px 2px 0;color:#a1a8a2;font-size:8px;display:flex;justify-content:space-between;gap:10px}.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,14px);opacity:0;background:#27392c;color:white;padding:9px 12px;border-radius:5px;font-size:9px;transition:.18s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
+:root{--paper:#f4f5f3;--card:#fff;--ink:#202521;--muted:#909791;--line:#e8ebe7;--green:#337d5e;--green-bg:#e9f3ec;--amber:#c78c4c;--amber-bg:#fdf6ed;--blue:#41729f;--blue-bg:#f0f4f8;--red:#bb6866;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--sans:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",Arial,sans-serif}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:13px var(--sans)}button,input,select,textarea{font:inherit}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid #6a9c7b;outline-offset:2px}.desk{max-width:1500px;margin:auto;padding:18px 22px 30px}.top{height:auto;min-height:43px;display:flex;flex-wrap:wrap;align-items:center;gap:10px;border-bottom:1px solid #e4e7e3;padding-bottom:13px}.logo{width:23px;height:23px;border-radius:6px;background:#a5c846;display:grid;place-items:center;color:#23331e;font-weight:900;font-size:14px}.brand{font-weight:800;font-size:12px;letter-spacing:.04em}.brand em{font-style:normal;color:#b45c5d;font-family:var(--mono);font-size:9px;margin-left:4px}
+.nav-tabs{display:flex;gap:4px;background:#e2e6e1;padding:3px;border-radius:6px;margin-left:12px}
+.nav-tab{border:0;background:transparent;padding:5px 11px;font-size:11px;font-weight:600;color:#606861;border-radius:4px;cursor:pointer;transition:.15s}
+.nav-tab.active{background:#fff;color:#202521;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.top-right{margin-left:auto;display:flex;align-items:center;gap:12px}.preview{font:8px var(--mono);letter-spacing:.1em;color:#a67a44;background:#faf3e9;border:1px solid #f0e5d5;border-radius:20px;padding:5px 8px}.live{font:8px var(--mono);color:var(--green);background:var(--green-bg);border-radius:20px;padding:5px 9px;letter-spacing:.05em}.live:before{content:"";display:inline-block;width:6px;height:6px;background:#56a176;border-radius:50%;margin-right:5px}.top-time{font:9px var(--mono);color:#737a74}.top-actions{display:flex;gap:7px}.btn{cursor:pointer;border:1px solid var(--line);background:#fff;border-radius:5px;padding:6px 9px;color:#626a63;font-size:9px;display:inline-flex;align-items:center;justify-content:center;gap:4px}.btn.dark{background:#2c4334;border-color:#2c4334;color:#fff}.btn.accent{background:#3a6186;border-color:#3a6186;color:#fff}.btn:hover{filter:brightness(.97)}.page-title{margin:20px 0 12px;display:flex;align-items:end;justify-content:space-between}.page-title h1{font-size:18px;letter-spacing:-.04em;margin:0;font-weight:650}.page-title p{margin:4px 0 0;color:#9aa19b;font-size:9px}.page-title .hint{font:8px var(--mono);color:#a2a8a2;letter-spacing:.08em}.top-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.card{background:var(--card);border:1px solid var(--line);border-radius:7px;box-shadow:0 1px 4px #24382b08}.metric{height:96px;padding:11px 12px;position:relative;overflow:hidden}.metric label,.section-label{font:8px var(--mono);letter-spacing:.08em;color:#959c96;text-transform:uppercase}.metric .value{font:500 21px var(--mono);letter-spacing:-.06em;margin:10px 0 3px;color:#26322a}.metric .value small{font-size:11px;color:#6d776f;letter-spacing:0}.metric .sub{font-size:8px;color:#9ca39d}.gain{color:var(--green)!important}.metric .tag{position:absolute;right:10px;top:10px;font:7px var(--mono);color:#a0a69f;border:1px solid #edf0ed;border-radius:3px;padding:3px 4px}.mini-bars{position:absolute;right:9px;bottom:11px;display:flex;align-items:end;gap:2px;height:20px}.mini-bars i{display:block;width:3px;background:#cadccf;border-radius:2px;height:7px}.mini-bars i:nth-child(3n){height:15px;background:#86b291}.mini-bars i:nth-child(4n){height:11px;background:#ded2b7}.mission{display:flex;align-items:center;gap:12px}.mission .value{font-size:24px;margin:0 0 2px}.mission-controls{margin-left:auto;display:grid;gap:5px}.mission-controls .btn{padding:5px 7px;font-size:8px}.gate{display:flex;align-items:center;gap:9px;margin-top:9px}.gate-mark{width:29px;height:29px;border:1px solid #f0dedb;background:#fcf3f0;color:#bc6b68;border-radius:50%;display:grid;place-items:center;font-size:13px}.gate b{display:block;font:600 12px var(--mono);letter-spacing:.04em;color:#a75b59}.gate small{display:block;font-size:8px;color:#a2a8a2;margin-top:3px}.grid-main{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(330px,.9fr);gap:9px;margin-top:9px}.panel{padding:11px 12px}.panel-head{display:flex;align-items:start;justify-content:space-between;gap:10px}.panel-head h2{font-size:11px;margin:0;font-weight:650;letter-spacing:.01em}.panel-head p{font-size:8px;color:#9ca39d;margin:4px 0 0}.small-actions{display:flex;gap:3px}.small-actions button{font:8px var(--mono);color:#9aa19b;border:0;background:transparent;padding:3px 5px;cursor:pointer;border-radius:3px}.small-actions button.active{background:#edf3ed;color:#4b6f53}.chart-area{height:145px;position:relative;margin:8px 0 0 37px;padding-bottom:16px}.chart-area svg{width:100%;height:100%;display:block}.chart-y{position:absolute;left:-37px;top:2px;bottom:19px;display:flex;flex-direction:column;justify-content:space-between;font:7px var(--mono);color:#a5aca6}.chart-x{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;color:#a5aca6;font:7px var(--mono)}.chart-grid{stroke:#ecefeb;stroke-width:1;stroke-dasharray:3 4}.chart-line{stroke:#b8c5b8;stroke-width:1;stroke-dasharray:4 4}.chart-fill{fill:url(#area)}.chart-stroke{fill:none;stroke:#639273;stroke-width:1.8}.chart-end{fill:white;stroke:#639273;stroke-width:2}.legend{display:flex;align-items:center;gap:6px;border-top:1px solid #eff1ef;padding-top:7px;color:#929a93;font-size:8px}.legend i{width:6px;height:6px;background:#659273;border-radius:50%}.legend span:last-child{margin-left:auto;color:#a5aba6}.events{margin-top:8px}.event{display:grid;grid-template-columns:35px 37px 1fr auto;gap:7px;align-items:center;border-top:1px solid #f0f2ef;padding:8px 1px;font:8px var(--mono);color:#788079}.event:first-child{border-top:0}.event time{color:#9fa69f}.agent{font-weight:700}.agent.gem{color:#bf8c47}.agent.gpt{color:#548266}.agent.sys{color:#828b84}.agent.claude{color:#7c5295}.agent.deepseek{color:#2a6f97}.event .msg{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#777f79}.event .state{color:#959c96;font-size:7px}.event .state.ok{color:#58876a}.ridge{margin-top:9px;padding:11px 12px}.ridge-body{display:grid;grid-template-columns:135px 1fr;gap:13px;margin-top:10px}.ridge-kpis{display:grid;grid-template-columns:1fr 1fr;align-content:start;gap:9px 6px}.ridge-kpis small{font-size:7px;color:#9ba29c;display:block}.ridge-kpis b{font:10px var(--mono);display:block;margin-top:4px;color:#5a635c}.ridge-kpis p{grid-column:1/-1;margin:0;font-size:7px;color:#a0a7a1;line-height:1.5}.ridge-graph{min-width:0}.ridge-graph svg{width:100%;height:105px;display:block}.ridge-lines path{fill:none;stroke:#c8cbc8;stroke-width:.9}.ridge-patch{fill:#d99a8b;fill-opacity:.28}.ridge-pin{fill:#b36558}.ridge-axis{display:flex;justify-content:space-between;color:#a5aba6;font:7px var(--mono)}.bottom{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px}.viz-panel{height:204px;overflow:hidden}.viz-content{display:grid;grid-template-columns:minmax(150px,1fr) 105px;gap:10px;align-items:center;margin-top:7px}.chord{width:100%;height:140px}.chord circle{fill:#fff;stroke:#e7e9e6;stroke-width:1}.chord .arc{fill:none;stroke:#c39a60;stroke-width:2}.chord .arc:nth-of-type(2n){stroke:#71a080}.chord .arc:nth-of-type(3n){stroke:#bc7471}.chord .link{fill:none;stroke:#cbd2cb;stroke-width:.8}.chord .node{fill:#729279;stroke:#fff;stroke-width:2}.chord text{font:6px var(--mono);fill:#858d87}.mini-table{font:8px var(--mono);color:#8a928b}.mini-table div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0f2ef}.mini-table b{color:#59645c;font-weight:500}.lattice-wrap{display:grid;grid-template-columns:1fr 105px;gap:8px;align-items:center;margin-top:7px}.lattice{width:100%;height:145px}.lattice line{stroke:#c6c9c6;stroke-width:.8}.lattice .cube2{stroke:#9c8cbb}.lattice .cube3{stroke:#c49ba1}.lattice circle{fill:#fff;stroke:#7c9b84;stroke-width:1}.lattice-stats div{padding:5px 0;border-bottom:1px solid #f0f2ef}.lattice-stats small{display:block;font-size:7px;color:#a1a8a2}.lattice-stats b{font:9px var(--mono);color:#626c64}.panel-foot{border-top:1px solid #eff1ef;margin-top:4px;padding-top:6px;display:flex;justify-content:space-between;color:#a0a7a1;font:7px var(--mono)}.disclaimer{margin:11px 2px 0;color:#a1a8a2;font-size:8px;display:flex;justify-content:space-between;gap:10px}.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,14px);opacity:0;background:#27392c;color:white;padding:9px 12px;border-radius:5px;font-size:9px;transition:.18s;pointer-events:none;z-index:99}.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* View switching */
+.view-panel{display:none}.view-panel.active{display:block}
+
+/* AI Control Center Specific Styles */
+.ai-status-badge{font:8px var(--mono);padding:2px 6px;border-radius:4px;display:inline-flex;align-items:center;gap:4px}
+.ai-status-badge.offline{background:#f5e8e8;color:#a84846;border:1px solid #ecd3d3}
+.ai-status-badge.demo{background:#faf3e9;color:#a67a44;border:1px solid #f0e5d5}
+.ai-status-badge.online{background:var(--green-bg);color:var(--green);border:1px solid #cae4d3}
+
+.grid-3col{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:9px}
+.grid-2col-wide{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(320px,1fr);gap:9px;margin-top:9px}
+
+.member-list{display:grid;gap:6px;margin-top:8px}
+.member-item{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border:1px solid #f0f2ef;border-radius:6px;background:#fafbfa}
+.member-info{display:flex;align-items:center;gap:8px}
+.avatar{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:700 10px var(--mono);color:#fff}
+.avatar.gpt{background:#548266}.avatar.claude{background:#7c5295}.avatar.gemini{background:#bf8c47}.avatar.deepseek{background:#2a6f97}.avatar.human{background:#5a635c}
+.member-details h4{margin:0;font-size:11px;font-weight:600}
+.member-details p{margin:1px 0 0;font-size:8px;color:#919892}
+
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;margin-top:8px}
+.project-card{border:1px solid #e8ebe7;border-radius:6px;padding:10px;background:#fff}
+.project-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.project-title{font-weight:650;font-size:11px;margin:0}
+.project-tag{font:8px var(--mono);padding:2px 5px;border-radius:3px;background:#edf1ee;color:#535a54}
+.project-desc{font-size:9px;color:#788079;margin:4px 0 8px;line-height:1.3}
+.progress-bar{height:4px;background:#eef1ed;border-radius:2px;overflow:hidden;margin-bottom:6px}
+.progress-fill{height:100%;background:#639273;border-radius:2px}
+
+.task-form{display:grid;gap:8px;margin-bottom:12px;padding:10px;background:#fafbfa;border:1px solid #ebeebd;border-radius:6px;border-color:#e8ebe7}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.form-group{display:flex;flex-direction:column;gap:3px}
+.form-group label{font:8px var(--mono);color:#828a83}
+.form-control{padding:6px 8px;border:1px solid #dce0db;border-radius:4px;font-size:10px;background:#fff}
+textarea.form-control{resize:vertical;min-height:48px}
+
+.task-list{display:grid;gap:6px}
+.task-item{display:grid;grid-template-columns:auto 1fr auto auto;gap:8px;align-items:center;padding:8px 10px;border:1px solid #f0f2ef;border-radius:5px;background:#fff}
+.task-badge{font:7px var(--mono);padding:2px 4px;border-radius:3px;text-transform:uppercase}
+.task-badge.pending{background:#fdf6ed;color:#c78c4c}
+.task-badge.running{background:var(--green-bg);color:var(--green)}
+.task-badge.done{background:#f0f4f8;color:#41729f}
+.task-title{font-size:10px;font-weight:600;color:#2c332e}
+.task-meta{font-size:8px;color:#919892;margin-top:1px}
+
 @media(min-width:1200px){.desk{padding-top:24px}.metric{height:102px}.chart-area{height:166px}.viz-panel{height:225px}.chord,.lattice{height:158px}}
-@media(max-width:780px){.desk{padding:12px 10px 20px}.top{gap:7px}.top-actions{display:none}.top-right{gap:8px}.top-time{display:none}.brand{font-size:10px}.page-title{margin-top:14px}.page-title h1{font-size:15px}.top-metrics{grid-template-columns:1fr 1fr;gap:6px}.metric{height:89px;padding:9px}.metric .value{font-size:18px;margin-top:11px}.metric .value small{font-size:9px}.grid-main{grid-template-columns:1fr;gap:7px;margin-top:7px}.panel{padding:9px}.chart-area{height:130px}.events .event{padding:7px 1px}.ridge{margin-top:7px}.ridge-body{grid-template-columns:100px 1fr;gap:7px}.ridge-kpis{gap:7px 3px}.ridge-kpis b{font-size:8px}.ridge-graph svg{height:88px}.bottom{grid-template-columns:1fr;gap:7px;margin-top:7px}.viz-panel{height:190px}.chord,.lattice{height:135px}.disclaimer{flex-direction:column;gap:4px}.gate{margin-top:4px}.gate-mark{width:23px;height:23px}.gate b{font-size:10px}}
-@media(max-width:390px){.desk{padding-inline:8px}.top-right{gap:5px}.preview{font-size:7px;padding:4px 6px}.live{font-size:7px;padding:4px 6px}.mission{gap:7px}.mission-controls .btn{font-size:7px;padding:4px}.event{grid-template-columns:31px 31px 1fr auto!important;gap:4px!important;font-size:7px!important}.viz-content,.lattice-wrap{grid-template-columns:minmax(130px,1fr) 88px}.mini-table{font-size:7px}}
+@media(max-width:900px){.grid-3col{grid-template-columns:1fr}.grid-2col-wide{grid-template-columns:1fr}}
+@media(max-width:780px){.desk{padding:12px 10px 20px}.top{gap:7px;flex-direction:column;align-items:flex-start}.nav-tabs{margin-left:0;width:100%;justify-content:stretch}.nav-tab{flex:1;text-align:center}.top-actions{display:none}.top-right{gap:8px;width:100%;justify-content:space-between}.top-time{display:none}.brand{font-size:10px}.page-title{margin-top:14px;flex-direction:column;align-items:flex-start;gap:4px}.page-title h1{font-size:15px}.top-metrics{grid-template-columns:1fr 1fr;gap:6px}.metric{height:89px;padding:9px}.metric .value{font-size:18px;margin-top:11px}.metric .value small{font-size:9px}.grid-main{grid-template-columns:1fr;gap:7px;margin-top:7px}.panel{padding:9px}.chart-area{height:130px}.events .event{padding:7px 1px}.ridge{margin-top:7px}.ridge-body{grid-template-columns:100px 1fr;gap:7px}.ridge-kpis{gap:7px 3px}.ridge-kpis b{font-size:8px}.ridge-graph svg{height:88px}.bottom{grid-template-columns:1fr;gap:7px;margin-top:7px}.viz-panel{height:190px}.chord,.lattice{height:135px}.disclaimer{flex-direction:column;gap:4px}.gate{margin-top:4px}.gate-mark{width:23px;height:23px}.gate b{font-size:10px}.form-row{grid-template-columns:1fr}}
+@media(max-width:390px){.desk{padding-inline:8px}.top-right{gap:5px}.preview{font-size:7px;padding:4px 6px}.live{font-size:7px;padding:4px 6px}.mission{gap:7px}.mission-controls .btn{font-size:7px;padding:4px}.event{grid-template-columns:31px 31px 1fr auto!important;gap:4px!important;font-size:7px!important}.viz-content,.lattice-wrap{grid-template-columns:minmax(130px,1fr) 88px}.mini-table{font-size:7px}.task-item{grid-template-columns:1fr;gap:4px}}
 </style>
 </head>
 <body>
 <main class="desk">
-  <header class="top"><div class="logo">↗</div><div class="brand">AGENT DESK <em>| TRADING RESEARCH</em></div><div class="top-right"><span class="preview">DEMO DATA</span><span class="live" id="liveBadge">PREVIEW</span><time class="top-time" id="clock">08:00:00</time><div class="top-actions"><button class="btn" id="exportBtn">Export snapshot</button><button class="btn dark" id="safeBtn">Safe mode ON</button></div></div></header>
-  <div class="page-title"><div><h1>Trading operations console</h1><p>Agent status, research runs and risk review in one view.</p></div><span class="hint">PAPER ENVIRONMENT · NO EXCHANGE CONNECTION</span></div>
-  <section class="top-metrics" aria-label="帳戶與任務狀態">
-    <article class="card metric"><label>Balance / ETH</label><span class="tag">DEMO</span><div class="value">0.0178 <small>ETH</small></div><div class="sub">示範餘額 · 未連接錢包</div></article>
-    <article class="card metric"><label>Total P&amp;L / USD</label><span class="tag">NO RUNS</span><div class="value gain">$0.00</div><div class="sub">尚無實際回測資料</div><div class="mini-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
-    <article class="card metric"><label>Mission clock</label><div class="mission"><div><div class="value" id="timer">00:00</div><div class="sub" id="missionState">IDLE · DEMO ONLY</div></div><div class="mission-controls"><button class="btn dark" id="startBtn">Start demo</button><button class="btn" id="stopBtn">Stop</button></div></div></article>
-    <article class="card metric"><label>Approval gate</label><div class="gate"><span class="gate-mark">!</span><span><b id="gateState">WAIT / REVIEW</b><small id="gateNote">人工確認 · 真實下單關閉</small></span></div></article>
+  <header class="top">
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="logo">↗</div>
+      <div class="brand">AGENT DESK <em>| GENERAL & TRADING</em></div>
+    </div>
+    <nav class="nav-tabs" aria-label="Main Navigation">
+      <button class="nav-tab active" id="tabAiCenter" onclick="switchView('aiCenter')">通用 AI 控制中心</button>
+      <button class="nav-tab" id="tabTrading" onclick="switchView('tradingConsole')">交易回測 Console</button>
+    </nav>
+    <div class="top-right">
+      <span class="preview">DEMO & PROTOTYPE</span>
+      <span class="live" id="liveBadge">DEMO MODE</span>
+      <time class="top-time" id="clock">08:00:00</time>
+      <div class="top-actions">
+        <button class="btn" id="exportBtn">Export snapshot</button>
+        <button class="btn dark" id="safeBtn">Safe mode ON</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- VIEW 1: GENERAL AI CONTROL CENTER -->
+  <section id="viewAiCenter" class="view-panel active">
+    <div class="page-title">
+      <div>
+        <h1>General AI Control Center</h1>
+        <p>跨專案 AI Agent 與人員協同中心 · 任務派送與動態隊列監控</p>
+      </div>
+      <span class="hint">DEMO MODE · ALL AGENT CONNECTIONS INDICATED</span>
+    </div>
+
+    <!-- Top Key Indicators for AI Center -->
+    <section class="top-metrics" aria-label="AI 控制中心概覽">
+      <article class="card metric">
+        <label>Active Agents / Models</label>
+        <span class="tag">UNCONNECTED</span>
+        <div class="value">4 <small>AI</small></div>
+        <div class="sub">GPT-4o, Claude 3.5, Gemini, DeepSeek (未連線)</div>
+      </article>
+      <article class="card metric">
+        <label>Team Members / Humans</label>
+        <span class="tag">ACTIVE</span>
+        <div class="value">3 <small>HUMANS</small></div>
+        <div class="sub">專案經理, 策略研究員, 系統工程師</div>
+      </article>
+      <article class="card metric">
+        <label>Task Queue Status</label>
+        <div class="mission">
+          <div>
+            <div class="value" id="aiQueueCount">3 <small>QUEUED</small></div>
+            <div class="sub" id="aiQueueSub">示範佇列 · 待派送處理</div>
+          </div>
+        </div>
+      </article>
+      <article class="card metric">
+        <label>Projects Managed</label>
+        <span class="tag">5 TYPES</span>
+        <div class="value">5 <small>PROJECTS</small></div>
+        <div class="sub">交易, 開發, 內容, 分析, 研究</div>
+      </article>
+    </section>
+
+    <!-- Main Content Grid for AI Center -->
+    <div class="grid-2col-wide">
+      <!-- Left Column: Task Queue & New Dispatch -->
+      <article class="card panel">
+        <div class="panel-head">
+          <div>
+            <h2>Task Dispatch & Queue System</h2>
+            <p>任務派派與執行佇列 · 示範模式下派送將記錄至活動紀錄</p>
+          </div>
+          <span class="section-label">DEMO QUEUE</span>
+        </div>
+
+        <!-- Task Creation Form -->
+        <form class="task-form" id="dispatchForm" onsubmit="handleDispatchTask(event)">
+          <div class="form-group">
+            <label>TASK TITLE / 任務名稱</label>
+            <input type="text" class="form-control" id="taskTitleInput" placeholder="例如：分析市場波動度或優化前端組件..." required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>PROJECT / 關聯專案</label>
+              <select class="form-control" id="taskProjectSelect">
+                <option value="金融交易量化模型">金融交易量化模型 (交易)</option>
+                <option value="全棧 Web 控制台">全棧 Web 控制台 (開發)</option>
+                <option value="AI 行銷內容生成">AI 行銷內容生成 (內容)</option>
+                <option value="用戶行為數據分析">用戶行為數據分析 (分析)</option>
+                <option value="多 Agent 協同研究">多 Agent 協同研究 (研究)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>ASSIGNEE / 指派 AI 或人員</label>
+              <select class="form-control" id="taskAssigneeSelect">
+                <option value="GPT-4o (AI)">GPT-4o (AI Agent)</option>
+                <option value="Claude 3.5 Sonnet (AI)">Claude 3.5 Sonnet (AI Agent)</option>
+                <option value="Gemini 1.5 Pro (AI)">Gemini 1.5 Pro (AI Agent)</option>
+                <option value="DeepSeek V3 (AI)">DeepSeek V3 (AI Agent)</option>
+                <option value="Alice - 策略研究員">Alice - 策略研究員 (Human)</option>
+                <option value="Bob - 系統工程師">Bob - 系統工程師 (Human)</option>
+              </select>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:2px">
+            <span style="font-size:8px;color:#a0a7a1">* 點擊派送如實示範佇列處理，未連接真實 AI API</span>
+            <button type="submit" class="btn accent">Dispatch Task / 派送任務</button>
+          </div>
+        </form>
+
+        <!-- Current Task List -->
+        <div class="panel-head" style="margin-top:10px">
+          <h2>Active Queue Items</h2>
+          <span id="queueBadgeText" style="font:8px var(--mono);color:#808882">3 TASKS IN LIST</span>
+        </div>
+        <div class="task-list" id="aiTaskList">
+          <div class="task-item">
+            <span class="task-badge running">RUNNING</span>
+            <div>
+              <div class="task-title">回測策略風險參數感應度分析</div>
+              <div class="task-meta">專案：金融交易量化模型 · 指派：Claude 3.5 Sonnet (AI)</div>
+            </div>
+            <span class="ai-status-badge demo">示範運行中</span>
+            <button class="btn" style="font-size:7px;padding:3px 5px" onclick="completeTask(this, '回測策略風險參數感應度分析')">完成</button>
+          </div>
+          <div class="task-item">
+            <span class="task-badge pending">PENDING</span>
+            <div>
+              <div class="task-title">寫入多語言 API 接口文檔模組</div>
+              <div class="task-meta">專案：全棧 Web 控制台 · 指派：GPT-4o (AI)</div>
+            </div>
+            <span class="ai-status-badge offline">未連線 API</span>
+            <button class="btn" style="font-size:7px;padding:3px 5px" onclick="completeTask(this, '寫入多語言 API 接口文檔模組')">完成</button>
+          </div>
+          <div class="task-item">
+            <span class="task-badge pending">PENDING</span>
+            <div>
+              <div class="task-title">檢視團隊週度 Task Progress 報告</div>
+              <div class="task-meta">專案：多 Agent 協同研究 · 指派：Alice - 策略研究員</div>
+            </div>
+            <span class="ai-status-badge online">人員待處理</span>
+            <button class="btn" style="font-size:7px;padding:3px 5px" onclick="completeTask(this, '檢視團隊週度 Task Progress 報告')">完成</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Right Column: Activity Log & Quick Status -->
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <article class="card panel">
+          <div class="panel-head">
+            <div>
+              <h2>Control Center Activity Log</h2>
+              <p>AI 派送與控制中心即時動態事件</p>
+            </div>
+            <button class="btn" onclick="clearAiLog()">Clear Log</button>
+          </div>
+          <div class="events" id="aiEvents">
+            <div class="event">
+              <time>08:35</time>
+              <span class="agent sys">SYSTEM</span>
+              <span class="msg">通用 AI 控制中心已啟動 (示範模式)</span>
+              <span class="state ok">READY</span>
+            </div>
+            <div class="event">
+              <time>08:32</time>
+              <span class="agent claude">CLAUDE</span>
+              <span class="msg">已接收「風險參數感應度」示範模擬任務</span>
+              <span class="state ok">DEMO</span>
+            </div>
+            <div class="event">
+              <time>08:30</time>
+              <span class="agent gpt">GPT</span>
+              <span class="msg">API 未連線，模型狀態保持離線示範</span>
+              <span class="state">OFFLINE</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card panel">
+          <div class="panel-head">
+            <div>
+              <h2>AI Integration Status / 連線說明</h2>
+            </div>
+          </div>
+          <div style="font-size:9px;color:#6d756f;line-height:1.5;margin-top:6px">
+            <p style="margin:0 0 6px"><strong>真實連線狀態提示：</strong></p>
+            <ul style="margin:0;padding-left:16px;display:grid;gap:4px">
+              <li>所有 AI 模型均為<strong>未連接 API</strong> 狀態 (OFFLINE / DEMO MODE)。</li>
+              <li>任務佇列派送操作不會觸發任何實際付費 API 請求。</li>
+              <li>人員可手動標記與管理任務處理狀態。</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- AI Models & Humans Section -->
+    <section style="margin-top:9px">
+      <div class="page-title" style="margin:12px 0 8px">
+        <h2>AI Agents & Team Roster / AI 模型與團隊人員管理</h2>
+      </div>
+      <div class="grid-3col">
+        <!-- AI Model Roster -->
+        <article class="card panel">
+          <div class="panel-head">
+            <h2>AI Model Agents (4)</h2>
+            <span class="section-label">MODELS</span>
+          </div>
+          <div class="member-list">
+            <div class="member-item">
+              <div class="member-info">
+                <div class="avatar gpt">G4</div>
+                <div class="member-details">
+                  <h4>GPT-4o (OpenAI)</h4>
+                  <p>主要角色：程式重構、邏輯分析</p>
+                </div>
+              </div>
+              <span class="ai-status-badge offline">未連接 API</span>
+            </div>
+            <div class="member-item">
+              <div class="member-info">
+                <div class="avatar claude">C3</div>
+                <div class="member-details">
+                  <h4>Claude 3.5 Sonnet</h4>
+                  <p>主要角色：架構設計、審查代碼</p>
+                </div>
+              </div>
+              <span class="ai-status-badge offline">未連接 API</span>
+            </div>
+            <div class="member-item">
+              <div class="member-info">
+                <div class="avatar gemini">G1</div>
+                <div class="member-details">
+                  <h4>Gemini 1.5 Pro</h4>
+                  <p>主要角色：長文本解析、研究檢視</p>
+                </div>
+              </div>
+              <span class="ai-status-badge offline">未連接 API</span>
+            </div>
+            <div class="member-item">
+              <div class="member-info">
+                <div class="avatar deepseek">DS</div>
+                <div class="member-details">
+                  <h4>DeepSeek V3</h4>
+                  <p>主要角色：算法推演、數學模型</p>
+                </div>
+              </div>
+              <span class="ai-status-badge offline">未連接 API</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Personnel Roster -->
+        <article class="card panel">
+          <div class="panel-head">
+            <h2>Human Team Members (3)</h2>
+            <span class="section-label">PERSONNEL</span>
+          </div>
+          <div class="member-list">
+            <div class="member-item">
+              <div class="member-info">
+                <div class="avatar human">PM</div>
+                <div class="member-details">
+                  <h4>Carol (Project Manager)</h4>
+                  <p>負責專案進度、資源指派與審核</p>
+                </div>
+              </div>
+              <span class="ai-status-badge online">在線</span>
+            </div>
+            <div class="member-item">
+              <div class="member-info">
+                <div class="avatar human">RA</div>
+                <div class="member-details">
+                  <h4>Alice (Quant Researcher)</h4>
+                  <p>負責策略因子開發與量化驗證</p>
+                </div>
+              </div>
+              <span class="ai-status-badge online">在線</span>
+            </div>
+            <div class="member-item">
+              <div class="member-info">
+                <div class="avatar human">SE</div>
+                <div class="member-details">
+                  <h4>Bob (Systems Engineer)</h4>
+                  <p>負責基礎架構維護與控制台優化</p>
+                </div>
+              </div>
+              <span class="ai-status-badge online">在線</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Managed Projects Overview -->
+        <article class="card panel">
+          <div class="panel-head">
+            <h2>Project Portfolio (5 Types)</h2>
+            <span class="section-label">CATEGORIES</span>
+          </div>
+          <div class="projects-grid">
+            <div class="project-card">
+              <div class="project-header">
+                <span class="project-title">金融交易量化模型</span>
+                <span class="project-tag">交易類</span>
+              </div>
+              <div class="project-desc">網格與趨勢策略回測及風險控制</div>
+              <div class="progress-bar"><div class="progress-fill" style="width: 65%"></div></div>
+              <div style="font-size:8px;color:#919892;display:flex;justify-content:space-between"><span>進度: 65%</span><span>2 AI · 1 Human</span></div>
+            </div>
+            <div class="project-card">
+              <div class="project-header">
+                <span class="project-title">全棧 Web 控制台</span>
+                <span class="project-tag">開發類</span>
+              </div>
+              <div class="project-desc">通用 AI 控制中心與交易儀表板</div>
+              <div class="progress-bar"><div class="progress-fill" style="width: 85%"></div></div>
+              <div style="font-size:8px;color:#919892;display:flex;justify-content:space-between"><span>進度: 85%</span><span>1 AI · 1 Human</span></div>
+            </div>
+            <div class="project-card">
+              <div class="project-header">
+                <span class="project-title">AI 行銷內容生成</span>
+                <span class="project-tag">內容類</span>
+              </div>
+              <div class="project-desc">自動化產生研究報告與摘要文案</div>
+              <div class="progress-bar"><div class="progress-fill" style="width: 40%"></div></div>
+              <div style="font-size:8px;color:#919892;display:flex;justify-content:space-between"><span>進度: 40%</span><span>1 AI · 1 Human</span></div>
+            </div>
+            <div class="project-card">
+              <div class="project-header">
+                <span class="project-title">用戶行為數據分析</span>
+                <span class="project-tag">分析類</span>
+              </div>
+              <div class="project-desc">控制台操作日誌與任務執行效率</div>
+              <div class="progress-bar"><div class="progress-fill" style="width: 50%"></div></div>
+              <div style="font-size:8px;color:#919892;display:flex;justify-content:space-between"><span>進度: 50%</span><span>1 AI</span></div>
+            </div>
+            <div class="project-card">
+              <div class="project-header">
+                <span class="project-title">多 Agent 協同研究</span>
+                <span class="project-tag">研究類</span>
+              </div>
+              <div class="project-desc">AI Handoff 流程與決策機制推演</div>
+              <div class="progress-bar"><div class="progress-fill" style="width: 75%"></div></div>
+              <div style="font-size:8px;color:#919892;display:flex;justify-content:space-between"><span>進度: 75%</span><span>3 AI · 1 Human</span></div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
   </section>
-  <section class="grid-main">
-    <article class="card panel"><div class="panel-head"><div><h2>Balance history</h2><p>Paper account equity · no backtest series yet</p></div><div class="small-actions" id="rangeButtons"><button class="active">1D</button><button>1W</button><button>1M</button><button>ALL</button></div></div><div class="chart-area"><div class="chart-y"><span>10,400</span><span>10,200</span><span>10,000</span><span>9,800</span></div><svg viewBox="0 0 760 170" preserveAspectRatio="none" role="img" aria-label="起始資金基準線，沒有回測資料"><defs><linearGradient id="area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#65a07a" stop-opacity=".15"/><stop offset="1" stop-color="#65a07a" stop-opacity="0"/></linearGradient></defs><path class="chart-grid" d="M0 22H760 M0 63H760 M0 104H760 M0 145H760"/><path class="chart-line" d="M0 104H760"/><path class="chart-fill" d="M0 104 L80 104 L160 104 L240 104 L320 104 L400 104 L480 104 L560 104 L640 104 L760 104 V170H0Z"/><path class="chart-stroke" d="M0 104 L80 104 L160 104 L240 104 L320 104 L400 104 L480 104 L560 104 L640 104 L760 104"/><circle class="chart-end" cx="760" cy="104" r="4"/></svg><div class="chart-x"><span>00:00</span><span>04:00</span><span>08:00</span><span>12:00</span><span>16:00</span><span>20:00</span></div></div><div class="legend"><i></i><span>Starting equity baseline</span><span id="rangeNote">No measured series</span></div></article>
-    <article class="card panel"><div class="panel-head"><div><h2>Activity log</h2><p>Agent and system events · this prototype</p></div><button class="btn" id="clearBtn">Clear</button></div><div class="events" id="events"><div class="event"><time>08:31</time><span class="agent gem">GEM</span><span class="msg">Configuration loaded · research matrix</span><span class="state ok">READY</span></div><div class="event"><time>08:30</time><span class="agent gpt">GPT</span><span class="msg">Reviewer waiting for strategy specification</span><span class="state">IDLE</span></div><div class="event"><time>08:30</time><span class="agent sys">GATE</span><span class="msg">Exchange and live orders disabled</span><span class="state ok">SAFE</span></div><div class="event"><time>08:29</time><span class="agent sys">SYSTEM</span><span class="msg">Standalone dashboard initialized</span><span class="state ok">READY</span></div></div></article>
+
+  <!-- VIEW 2: ORIGINAL TRADING RESEARCH CONSOLE (PRESERVED IN FULL) -->
+  <section id="viewTradingConsole" class="view-panel">
+    <div class="page-title">
+      <div>
+        <h1>Trading operations console</h1>
+        <p>Agent status, research runs and risk review in one view.</p>
+      </div>
+      <span class="hint">PAPER ENVIRONMENT · NO EXCHANGE CONNECTION</span>
+    </div>
+    <section class="top-metrics" aria-label="帳戶與任務狀態">
+      <article class="card metric"><label>Balance / ETH</label><span class="tag">DEMO</span><div class="value">0.0178 <small>ETH</small></div><div class="sub">示範餘額 · 未連接錢包</div></article>
+      <article class="card metric"><label>Total P&amp;L / USD</label><span class="tag">NO RUNS</span><div class="value gain">$0.00</div><div class="sub">尚無實際回測資料</div><div class="mini-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
+      <article class="card metric"><label>Mission clock</label><div class="mission"><div><div class="value" id="timer">00:00</div><div class="sub" id="missionState">IDLE · DEMO ONLY</div></div><div class="mission-controls"><button class="btn dark" id="startBtn">Start demo</button><button class="btn" id="stopBtn">Stop</button></div></div></article>
+      <article class="card metric"><label>Approval gate</label><div class="gate"><span class="gate-mark">!</span><span><b id="gateState">WAIT / REVIEW</b><small id="gateNote">人工確認 · 真實下單關閉</small></span></div></article>
+    </section>
+    <section class="grid-main">
+      <article class="card panel"><div class="panel-head"><div><h2>Balance history</h2><p>Paper account equity · no backtest series yet</p></div><div class="small-actions" id="rangeButtons"><button class="active">1D</button><button>1W</button><button>1M</button><button>ALL</button></div></div><div class="chart-area"><div class="chart-y"><span>10,400</span><span>10,200</span><span>10,000</span><span>9,800</span></div><svg viewBox="0 0 760 170" preserveAspectRatio="none" role="img" aria-label="起始資金基準線，沒有回測資料"><defs><linearGradient id="area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#65a07a" stop-opacity=".15"/><stop offset="1" stop-color="#65a07a" stop-opacity="0"/></linearGradient></defs><path class="chart-grid" d="M0 22H760 M0 63H760 M0 104H760 M0 145H760"/><path class="chart-line" d="M0 104H760"/><path class="chart-fill" d="M0 104 L80 104 L160 104 L240 104 L320 104 L400 104 L480 104 L560 104 L640 104 L760 104 V170H0Z"/><path class="chart-stroke" d="M0 104 L80 104 L160 104 L240 104 L320 104 L400 104 L480 104 L560 104 L640 104 L760 104"/><circle class="chart-end" cx="760" cy="104" r="4"/></svg><div class="chart-x"><span>00:00</span><span>04:00</span><span>08:00</span><span>12:00</span><span>16:00</span><span>20:00</span></div></div><div class="legend"><i></i><span>Starting equity baseline</span><span id="rangeNote">No measured series</span></div></article>
+      <article class="card panel"><div class="panel-head"><div><h2>Activity log</h2><p>Agent and system events · this prototype</p></div><button class="btn" id="clearBtn">Clear</button></div><div class="events" id="events"><div class="event"><time>08:31</time><span class="agent gem">GEM</span><span class="msg">Configuration loaded · research matrix</span><span class="state ok">READY</span></div><div class="event"><time>08:30</time><span class="agent gpt">GPT</span><span class="msg">Reviewer waiting for strategy specification</span><span class="state">IDLE</span></div><div class="event"><time>08:30</time><span class="agent sys">GATE</span><span class="msg">Exchange and live orders disabled</span><span class="state ok">SAFE</span></div><div class="event"><time>08:29</time><span class="agent sys">SYSTEM</span><span class="msg">Standalone dashboard initialized</span><span class="state ok">READY</span></div></div></article>
+    </section>
+    <section class="card ridge"><div class="panel-head"><div><h2>Tail Probability Ridge</h2><p>Illustrative risk surface · not a forecast or backtest result</p></div><span class="section-label">SCENARIO VISUAL · DEMO</span></div><div class="ridge-body"><div class="ridge-kpis"><div><small>SESSIONS</small><b>—</b></div><div><small>TAIL MASS</small><b>—</b></div><div><small>EXPECTED R</small><b>—</b></div><div><small>MAX DRAWDOWN</small><b>—</b></div><p>Metrics appear after a real dataset and backtest are connected.</p></div><div class="ridge-graph"><svg viewBox="0 0 760 130" preserveAspectRatio="none" aria-label="示意用機率曲面"><g class="ridge-lines"><path d="M0 115 Q110 110 190 93 T370 85 T555 55 T760 48"/><path d="M0 107 Q110 102 190 85 T370 77 T555 47 T760 40"/><path d="M0 99 Q110 94 190 77 T370 69 T555 39 T760 32"/><path d="M0 91 Q110 86 190 61 T370 61 T555 31 T760 24"/><path d="M0 83 Q110 78 190 61 T370 53 T555 23 T760 16"/><path d="M0 75 Q110 70 190 53 T370 45 T555 15 T760 8"/><path d="M0 67 Q110 62 190 45 T370 37 T555 7 T760 0"/><path d="M0 59 Q110 54 190 37 T370 29 T555 0 T760 -8"/></g><path class="ridge-patch" d="M405 61 Q485 47 562 27 L562 78 Q490 89 405 87Z"/><circle class="ridge-pin" cx="523" cy="40" r="3.5"/></svg><div class="ridge-axis"><span>LOWER TAIL</span><span>OUTCOME DISTRIBUTION</span><span>HIGHER TAIL</span></div></div></div></section>
+    <section class="bottom">
+      <article class="card panel viz-panel"><div class="panel-head"><div><h2>Handoff Chord</h2><p>Agent roles and review flow</p></div><span class="section-label">2 ROLES · OFFLINE</span></div><div class="viz-content"><svg class="chord" viewBox="0 0 240 150" role="img" aria-label="GPT 與 Gemini 的示意交接圖"><circle cx="120" cy="76" r="48"/><path class="arc" d="M120 28 A48 48 0 0 1 160 49"/><path class="arc" d="M160 49 A48 48 0 0 1 166 101"/><path class="arc" d="M166 101 A48 48 0 0 1 120 124"/><path class="arc" d="M120 124 A48 48 0 0 1 77 100"/><path class="arc" d="M77 100 A48 48 0 0 1 80 49"/><path class="arc" d="M80 49 A48 48 0 0 1 120 28"/><path class="link" d="M120 28 Q90 73 166 101 M160 49 Q125 105 77 100 M120 124 Q134 65 80 49 M77 100 Q134 61 160 49 M80 49 Q132 83 166 101 M120 28 Q128 98 120 124"/><circle class="node" cx="120" cy="28" r="4"/><circle class="node" cx="160" cy="49" r="4"/><circle class="node" cx="166" cy="101" r="4"/><circle class="node" cx="120" cy="124" r="4"/><circle class="node" cx="77" cy="100" r="4"/><circle class="node" cx="80" cy="49" r="4"/><text x="110" y="16">GEMINI</text><text x="170" y="50">BUILD</text><text x="174" y="105">REVIEW</text><text x="107" y="140">GPT</text><text x="30" y="104">DATA</text><text x="42" y="44">HUMAN</text></svg><div class="mini-table"><div><span>HANDOFFS</span><b id="handoffs">00</b></div><div><span>REJECTED</span><b>00</b></div><div><span>AGENTS / TASK</span><b>02 / 00</b></div><div><span>APPROVAL</span><b>WAIT</b></div></div></div><div class="panel-foot"><span>MODEL CONNECTIONS: NONE</span><span>CONFIGURE ROLES ↗</span></div></article>
+      <article class="card panel viz-panel"><div class="panel-head"><div><h2>5D Strategy Lattice</h2><p>Parameter space overview</p></div><span class="section-label">MODEL SPACE · DEMO</span></div><div class="lattice-wrap"><svg class="lattice" viewBox="0 0 270 160" role="img" aria-label="五維策略參數網格示意"><g><line x1="45" y1="42" x2="118" y2="16"/><line x1="118" y1="16" x2="189" y2="37"/><line x1="189" y1="37" x2="116" y2="62"/><line x1="116" y1="62" x2="45" y2="42"/><line x1="45" y1="42" x2="45" y2="119"/><line x1="118" y1="16" x2="118" y2="96"/><line x1="189" y1="37" x2="190" y2="114"/><line x1="116" y1="62" x2="116" y2="139"/><line x1="45" y1="119" x2="116" y2="96"/><line x1="116" y1="96" x2="190" y2="114"/><line x1="190" y1="114" x2="116" y2="139"/><line x1="116" y1="139" x2="45" y2="119"/><line class="cube2" x1="45" y1="42" x2="190" y2="114"/><line class="cube2" x1="118" y1="16" x2="116" y2="139"/><line class="cube2" x1="189" y1="37" x2="45" y2="119"/><line class="cube3" x1="118" y1="16" x2="190" y2="114"/><line class="cube3" x1="45" y1="119" x2="116" y2="62"/><line class="cube3" x1="45" y1="42" x2="116" y2="96"/><line class="cube3" x1="189" y1="37" x2="116" y2="139"/><line x1="82" y1="29" x2="82" y2="130"/><line x1="153" y1="27" x2="153" y2="126"/><line x1="45" y1="81" x2="190" y2="76"/><line x1="81" y1="107" x2="153" y2="52"/><line x1="81" y1="54" x2="153" y2="102"/></g><g><circle cx="45" cy="42" r="2.3"/><circle cx="118" cy="16" r="2.3"/><circle cx="189" cy="37" r="2.3"/><circle cx="116" cy="62" r="2.3"/><circle cx="45" cy="119" r="2.3"/><circle cx="118" cy="96" r="2.3"/><circle cx="190" cy="114" r="2.3"/><circle cx="116" cy="139" r="2.3"/><circle cx="82" cy="29" r="2"/><circle cx="153" cy="27" r="2"/><circle cx="82" cy="130" r="2"/><circle cx="153" cy="126" r="2"/></g></svg><div class="lattice-stats"><div><small>DIMENSIONS</small><b>— / 5</b></div><div><small>VERTICES</small><b>—</b></div><div><small>EDGES</small><b>—</b></div><div><small>PROJECTION</small><b>5D → 2D</b></div></div></div><div class="panel-foot"><span>PARAMETERS NOT CONNECTED</span><span>OPEN CONFIGURATION ↗</span></div></article>
+    </section>
   </section>
-  <section class="card ridge"><div class="panel-head"><div><h2>Tail Probability Ridge</h2><p>Illustrative risk surface · not a forecast or backtest result</p></div><span class="section-label">SCENARIO VISUAL · DEMO</span></div><div class="ridge-body"><div class="ridge-kpis"><div><small>SESSIONS</small><b>—</b></div><div><small>TAIL MASS</small><b>—</b></div><div><small>EXPECTED R</small><b>—</b></div><div><small>MAX DRAWDOWN</small><b>—</b></div><p>Metrics appear after a real dataset and backtest are connected.</p></div><div class="ridge-graph"><svg viewBox="0 0 760 130" preserveAspectRatio="none" aria-label="示意用機率曲面"><g class="ridge-lines"><path d="M0 115 Q110 110 190 93 T370 85 T555 55 T760 48"/><path d="M0 107 Q110 102 190 85 T370 77 T555 47 T760 40"/><path d="M0 99 Q110 94 190 77 T370 69 T555 39 T760 32"/><path d="M0 91 Q110 86 190 69 T370 61 T555 31 T760 24"/><path d="M0 83 Q110 78 190 61 T370 53 T555 23 T760 16"/><path d="M0 75 Q110 70 190 53 T370 45 T555 15 T760 8"/><path d="M0 67 Q110 62 190 45 T370 37 T555 7 T760 0"/><path d="M0 59 Q110 54 190 37 T370 29 T555 0 T760 -8"/></g><path class="ridge-patch" d="M405 61 Q485 47 562 27 L562 78 Q490 89 405 87Z"/><circle class="ridge-pin" cx="523" cy="40" r="3.5"/></svg><div class="ridge-axis"><span>LOWER TAIL</span><span>OUTCOME DISTRIBUTION</span><span>HIGHER TAIL</span></div></div></div></section>
-  <section class="bottom">
-    <article class="card panel viz-panel"><div class="panel-head"><div><h2>Handoff Chord</h2><p>Agent roles and review flow</p></div><span class="section-label">2 ROLES · OFFLINE</span></div><div class="viz-content"><svg class="chord" viewBox="0 0 240 150" role="img" aria-label="GPT 與 Gemini 的示意交接圖"><circle cx="120" cy="76" r="48"/><path class="arc" d="M120 28 A48 48 0 0 1 160 49"/><path class="arc" d="M160 49 A48 48 0 0 1 166 101"/><path class="arc" d="M166 101 A48 48 0 0 1 120 124"/><path class="arc" d="M120 124 A48 48 0 0 1 77 100"/><path class="arc" d="M77 100 A48 48 0 0 1 80 49"/><path class="arc" d="M80 49 A48 48 0 0 1 120 28"/><path class="link" d="M120 28 Q90 73 166 101 M160 49 Q125 105 77 100 M120 124 Q134 65 80 49 M77 100 Q134 61 160 49 M80 49 Q132 83 166 101 M120 28 Q128 98 120 124"/><circle class="node" cx="120" cy="28" r="4"/><circle class="node" cx="160" cy="49" r="4"/><circle class="node" cx="166" cy="101" r="4"/><circle class="node" cx="120" cy="124" r="4"/><circle class="node" cx="77" cy="100" r="4"/><circle class="node" cx="80" cy="49" r="4"/><text x="110" y="16">GEMINI</text><text x="170" y="50">BUILD</text><text x="174" y="105">REVIEW</text><text x="107" y="140">GPT</text><text x="30" y="104">DATA</text><text x="42" y="44">HUMAN</text></svg><div class="mini-table"><div><span>HANDOFFS</span><b id="handoffs">00</b></div><div><span>REJECTED</span><b>00</b></div><div><span>AGENTS / TASK</span><b>02 / 00</b></div><div><span>APPROVAL</span><b>WAIT</b></div></div></div><div class="panel-foot"><span>MODEL CONNECTIONS: NONE</span><span>CONFIGURE ROLES ↗</span></div></article>
-    <article class="card panel viz-panel"><div class="panel-head"><div><h2>5D Strategy Lattice</h2><p>Parameter space overview</p></div><span class="section-label">MODEL SPACE · DEMO</span></div><div class="lattice-wrap"><svg class="lattice" viewBox="0 0 270 160" role="img" aria-label="五維策略參數網格示意"><g><line x1="45" y1="42" x2="118" y2="16"/><line x1="118" y1="16" x2="189" y2="37"/><line x1="189" y1="37" x2="116" y2="62"/><line x1="116" y1="62" x2="45" y2="42"/><line x1="45" y1="42" x2="45" y2="119"/><line x1="118" y1="16" x2="118" y2="96"/><line x1="189" y1="37" x2="190" y2="114"/><line x1="116" y1="62" x2="116" y2="139"/><line x1="45" y1="119" x2="116" y2="96"/><line x1="116" y1="96" x2="190" y2="114"/><line x1="190" y1="114" x2="116" y2="139"/><line x1="116" y1="139" x2="45" y2="119"/><line class="cube2" x1="45" y1="42" x2="190" y2="114"/><line class="cube2" x1="118" y1="16" x2="116" y2="139"/><line class="cube2" x1="189" y1="37" x2="45" y2="119"/><line class="cube3" x1="118" y1="16" x2="190" y2="114"/><line class="cube3" x1="45" y1="119" x2="116" y2="62"/><line class="cube3" x1="45" y1="42" x2="116" y2="96"/><line class="cube3" x1="189" y1="37" x2="116" y2="139"/><line x1="82" y1="29" x2="82" y2="130"/><line x1="153" y1="27" x2="153" y2="126"/><line x1="45" y1="81" x2="190" y2="76"/><line x1="81" y1="107" x2="153" y2="52"/><line x1="81" y1="54" x2="153" y2="102"/></g><g><circle cx="45" cy="42" r="2.3"/><circle cx="118" cy="16" r="2.3"/><circle cx="189" cy="37" r="2.3"/><circle cx="116" cy="62" r="2.3"/><circle cx="45" cy="119" r="2.3"/><circle cx="118" cy="96" r="2.3"/><circle cx="190" cy="114" r="2.3"/><circle cx="116" cy="139" r="2.3"/><circle cx="82" cy="29" r="2"/><circle cx="153" cy="27" r="2"/><circle cx="82" cy="130" r="2"/><circle cx="153" cy="126" r="2"/></g></svg><div class="lattice-stats"><div><small>DIMENSIONS</small><b>— / 5</b></div><div><small>VERTICES</small><b>—</b></div><div><small>EDGES</small><b>—</b></div><div><small>PROJECTION</small><b>5D → 2D</b></div></div></div><div class="panel-foot"><span>PARAMETERS NOT CONNECTED</span><span>OPEN CONFIGURATION ↗</span></div></article>
-  </section>
-  <footer class="disclaimer"><span>DEMO INTERFACE · No market data, AI agents, wallets or exchanges are connected. No real trades can be placed.</span><span>AGENT DESK / PREVIEW 01</span></footer>
-</main><div class="toast" id="toast" role="status"></div>
+
+  <footer class="disclaimer">
+    <span>DEMO INTERFACE · No market data, AI agents, wallets or exchanges are connected. No real trades can be placed.</span>
+    <span>AGENT DESK / HYBRID SYSTEM 02</span>
+  </footer>
+</main>
+
+<div class="toast" id="toast" role="status"></div>
+
 <script>
-const $=s=>document.querySelector(s);let seconds=0,timerId=null;function showToast(t){const n=$('#toast');n.textContent=t;n.classList.add('show');setTimeout(()=>n.classList.remove('show'),2300)}function pad(n){return String(n).padStart(2,'0')}function timeNow(){const d=new Date();return new Intl.DateTimeFormat('zh-TW',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,timeZone:'Asia/Taipei'}).format(d)}$('#clock').textContent=timeNow();setInterval(()=>$('#clock').textContent=timeNow(),1000);function paintTimer(){ $('#timer').textContent=pad(Math.floor(seconds/60))+':'+pad(seconds%60)}function log(agent,msg,state='INFO'){const row=document.createElement('div');row.className='event';row.innerHTML='<time>'+timeNow().slice(0,5)+'</time><span class="agent sys">'+agent+'</span><span class="msg"></span><span class="state">'+state+'</span>';row.querySelector('.msg').textContent=msg;$('#events').prepend(row);while($('#events').children.length>7)$('#events').lastElementChild.remove()}$('#startBtn').addEventListener('click',()=>{if(timerId)return;timerId=setInterval(()=>{seconds++;paintTimer()},1000);$('#missionState').textContent='RUNNING · UI DEMO';$('#liveBadge').textContent='SIMULATING';$('#startBtn').disabled=true;$('#handoffs').textContent='01';log('SYSTEM','Paper run started · UI demonstration only','DEMO');showToast('示範計時已開始，沒有執行真實回測。')});$('#stopBtn').addEventListener('click',()=>{if(timerId){clearInterval(timerId);timerId=null}$('#missionState').textContent='STOPPED · DEMO ONLY';$('#liveBadge').textContent='PREVIEW';$('#startBtn').disabled=false;log('SYSTEM','Demo session stopped','SAFE');showToast('示範任務已停止。')});$('#safeBtn').addEventListener('click',()=>showToast('安全模式固定開啟；此頁不能送出真實訂單。'));$('#rangeButtons').addEventListener('click',e=>{if(e.target.tagName!=='BUTTON')return;$('#rangeButtons').querySelectorAll('button').forEach(b=>b.classList.toggle('active',b===e.target));$('#rangeNote').textContent=e.target.textContent+' · no measured series';showToast('已切換時間範圍；目前沒有實際資金曲線。')});$('#clearBtn').addEventListener('click',()=>{$('#events').innerHTML='<div class="event"><time>'+timeNow().slice(0,5)+'</time><span class="agent sys">SYSTEM</span><span class="msg">Demo log cleared</span><span class="state">READY</span></div>';showToast('示範紀錄已清除。')});$('#exportBtn').addEventListener('click',()=>{const data={title:'Agent Desk demo snapshot',created_at:new Date().toISOString(),demo:true,exchange_connected:false,real_orders_enabled:false,backtest_results:null,agent_connections:[]};const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));a.download='agent-desk-demo.json';a.click();URL.revokeObjectURL(a.href);showToast('已匯出示範狀態摘要。')});
+const $=s=>document.querySelector(s);
+let seconds=0,timerId=null;
+
+function showToast(t){
+  const n=$('#toast');
+  n.textContent=t;
+  n.classList.add('show');
+  setTimeout(()=>n.classList.remove('show'),2300);
+}
+
+function pad(n){return String(n).padStart(2,'0')}
+
+function timeNow(){
+  const d=new Date();
+  return new Intl.DateTimeFormat('zh-TW',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,timeZone:'Asia/Taipei'}).format(d);
+}
+
+$('#clock').textContent=timeNow();
+setInterval(()=>$('#clock').textContent=timeNow(),1000);
+
+// View Switching Logic
+function switchView(viewName){
+  document.querySelectorAll('.view-panel').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(el=>el.classList.remove('active'));
+
+  if(viewName==='aiCenter'){
+    $('#viewAiCenter').classList.add('active');
+    $('#tabAiCenter').classList.add('active');
+    showToast('切換至「通用 AI 控制中心」');
+  } else if(viewName==='tradingConsole'){
+    $('#viewTradingConsole').classList.add('active');
+    $('#tabTrading').classList.add('active');
+    showToast('切換至「交易回測 Console」');
+  }
+}
+
+// AI Control Center Actions
+function logAi(agent, msg, state='INFO'){
+  const row=document.createElement('div');
+  row.className='event';
+  let agentClass='sys';
+  if(agent.includes('GPT')) agentClass='gpt';
+  else if(agent.includes('Claude')) agentClass='claude';
+  else if(agent.includes('Gemini')) agentClass='gem';
+  else if(agent.includes('DeepSeek')) agentClass='deepseek';
+
+  row.innerHTML='<time>'+timeNow().slice(0,5)+'</time><span class="agent '+agentClass+'">'+agent+'</span><span class="msg"></span><span class="state">'+state+'</span>';
+  row.querySelector('.msg').textContent=msg;
+  $('#aiEvents').prepend(row);
+  while($('#aiEvents').children.length>8)$('#aiEvents').lastElementChild.remove();
+}
+
+function clearAiLog(){
+  $('#aiEvents').innerHTML='<div class="event"><time>'+timeNow().slice(0,5)+'</time><span class="agent sys">SYSTEM</span><span class="msg">AI Log cleared</span><span class="state">READY</span></div>';
+  showToast('AI 控制中心紀錄已清除。');
+}
+
+function updateQueueCount(){
+  const count = $('#aiTaskList').children.length;
+  $('#aiQueueCount').innerHTML = count + ' <small>QUEUED</small>';
+  $('#queueBadgeText').textContent = count + ' TASKS IN LIST';
+}
+
+function handleDispatchTask(e){
+  e.preventDefault();
+  const title = $('#taskTitleInput').value.trim();
+  const project = $('#taskProjectSelect').value;
+  const assignee = $('#taskAssigneeSelect').value;
+
+  if(!title) return;
+
+  const item = document.createElement('div');
+  item.className = 'task-item';
+  item.innerHTML = `
+    <span class="task-badge pending">PENDING</span>
+    <div>
+      <div class="task-title"></div>
+      <div class="task-meta"></div>
+    </div>
+    <span class="ai-status-badge offline">示範佇列 · 未連線 API</span>
+    <button class="btn" style="font-size:7px;padding:3px 5px" onclick="completeTask(this, '${title.replace(/'/g, "\\'")}')">完成</button>
+  `;
+  item.querySelector('.task-title').textContent = title;
+  item.querySelector('.task-meta').textContent = `專案：${project} · 指派：${assignee}`;
+
+  $('#aiTaskList').prepend(item);
+  $('#taskTitleInput').value = '';
+  updateQueueCount();
+
+  logAi(assignee.split(' ')[0], `新任務派送：${title} (未連線 API · 示範派送)`, 'DEMO');
+  showToast(`任務「${title}」已加入示範派送佇列 (未連接 API)`);
+}
+
+function completeTask(btnEl, taskTitle){
+  const item = btnEl.closest('.task-item');
+  if(!item) return;
+  const badge = item.querySelector('.task-badge');
+  badge.className = 'task-badge done';
+  badge.textContent = 'DONE';
+  const statusBadge = item.querySelector('.ai-status-badge');
+  statusBadge.className = 'ai-status-badge online';
+  statusBadge.textContent = '已完成';
+  btnEl.remove();
+
+  logAi('SYSTEM', `任務標記完成：${taskTitle}`, 'DONE');
+  showToast(`任務「${taskTitle}」已完成`);
+}
+
+// Trading Console Mission Clock Logic
+function paintTimer(){ $('#timer').textContent=pad(Math.floor(seconds/60))+':'+pad(seconds%60)}
+
+function log(agent,msg,state='INFO'){
+  const row=document.createElement('div');
+  row.className='event';
+  row.innerHTML='<time>'+timeNow().slice(0,5)+'</time><span class="agent sys">'+agent+'</span><span class="msg"></span><span class="state">'+state+'</span>';
+  row.querySelector('.msg').textContent=msg;
+  $('#events').prepend(row);
+  while($('#events').children.length>7)$('#events').lastElementChild.remove();
+}
+
+$('#startBtn').addEventListener('click',()=>{
+  if(timerId)return;
+  timerId=setInterval(()=>{seconds++;paintTimer()},1000);
+  $('#missionState').textContent='RUNNING · UI DEMO';
+  $('#liveBadge').textContent='SIMULATING';
+  $('#startBtn').disabled=true;
+  $('#handoffs').textContent='01';
+  log('SYSTEM','Paper run started · UI demonstration only','DEMO');
+  showToast('示範計時已開始，沒有執行真實回測。');
+});
+
+$('#stopBtn').addEventListener('click',()=>{
+  if(timerId){clearInterval(timerId);timerId=null}
+  $('#missionState').textContent='STOPPED · DEMO ONLY';
+  $('#liveBadge').textContent='PREVIEW';
+  $('#startBtn').disabled=false;
+  log('SYSTEM','Demo session stopped','SAFE');
+  showToast('示範任務已停止。');
+});
+
+$('#safeBtn').addEventListener('click',()=>showToast('安全模式固定開啟；此頁不能送出真實訂單。'));
+
+$('#rangeButtons').addEventListener('click',e=>{
+  if(e.target.tagName!=='BUTTON')return;
+  $('#rangeButtons').querySelectorAll('button').forEach(b=>b.classList.toggle('active',b===e.target));
+  $('#rangeNote').textContent=e.target.textContent+' · no measured series';
+  showToast('已切換時間範圍；目前沒有實際資金曲線。');
+});
+
+$('#clearBtn').addEventListener('click',()=>{
+  $('#events').innerHTML='<div class="event"><time>'+timeNow().slice(0,5)+'</time><span class="agent sys">SYSTEM</span><span class="msg">Demo log cleared</span><span class="state">READY</span></div>';
+  showToast('示範紀錄已清除。');
+});
+
+$('#exportBtn').addEventListener('click',()=>{
+  const data={
+    title:'Agent Desk demo snapshot',
+    created_at:new Date().toISOString(),
+    demo:true,
+    active_view: $('#viewAiCenter').classList.contains('active') ? 'AI Center' : 'Trading Console',
+    exchange_connected:false,
+    real_orders_enabled:false,
+    agent_connections: [
+      { name: 'GPT-4o', status: 'unconnected', type: 'AI' },
+      { name: 'Claude 3.5 Sonnet', status: 'unconnected', type: 'AI' },
+      { name: 'Gemini 1.5 Pro', status: 'unconnected', type: 'AI' },
+      { name: 'DeepSeek V3', status: 'unconnected', type: 'AI' }
+    ],
+    task_queue_length: $('#aiTaskList').children.length
+  };
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));
+  a.download='agent-desk-demo.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  showToast('已匯出示範狀態摘要。');
+});
 </script>
-</body></html>
+</body>
+</html>
