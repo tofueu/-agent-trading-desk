@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080b12">
+  <title>Pro AI 工作台</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">✳</div><div><strong>AI 工作台</strong><small>PRO WORKSPACE</small></div></div>
+      <div class="workspace-switch"><span class="tiny-dot"></span><span>個人工作區</span><span class="chevron">⌄</span></div>
+      <nav>
+        <div class="nav-label">工作區</div>
+        <a class="nav-item active" href="#home"><span class="nav-icon">▦</span>總覽</a>
+        <a class="nav-item" href="#agents"><span class="nav-icon">◈</span>AI 助理 <span class="nav-count">3</span></a>
+        <a class="nav-item" href="#tasks"><span class="nav-icon">◷</span>任務紀錄</a>
+        <div class="nav-label space-top">你的專案</div>
+        <button class="project-link" data-prompt="整理這個專案目前的狀態、待辦和風險。先檢查檔案，不要修改程式。"><i class="project-dot violet"></i>程式開發</button>
+        <button class="project-link" data-agent="perplexity" data-prompt="搜尋最新資料，提供可靠來源和摘要。"><i class="project-dot blue"></i>資料研究</button>
+        <button class="project-link" data-agent="grok" data-prompt="請從不同角度審查以下內容，列出疑點和反例。"><i class="project-dot amber"></i>策略審查</button>
+      </nav>
+      <div class="sidebar-bottom"><div class="quota-note"><span class="spark">✦</span><div><strong>使用現有訂閱</strong><p>不串接付費 API</p></div></div><div class="profile"><div class="avatar">蔡</div><div><strong>我的工作區</strong><small>本機模式</small></div><span class="more">•••</span></div></div>
+    </aside>
+
+    <main id="home">
+      <header class="topbar"><div class="crumb">工作區 <span>/</span> 總覽</div><div class="top-actions"><span class="local-pill"><i></i>資料保存在本機</span><button class="icon-btn" title="設定" id="settingsBtn">⚙</button></div></header>
+      <section class="welcome"><div><p class="eyebrow">THURSDAY, OCTOBER 15</p><h1>今天要完成什麼？</h1><p class="subhead">交給適合的 AI 助理，任務、程式和審查結果都集中在這裡。</p></div><div class="welcome-orb"><span>✦</span></div></section>
+
+      <section class="composer card">
+        <div class="composer-head"><div class="composer-label"><span class="compose-icon">✎</span><strong>建立主任務</strong></div><span class="hint">建立後展開成可追蹤的子任務</span></div>
+        <div class="project-fields"><input id="projectName" placeholder="專案名稱（例如：AI 交易面板）"><input id="repoUrl" placeholder="GitHub Repository 網址（選填）"><input id="issueUrl" placeholder="Issue / PR 網址（選填）"></div>
+        <textarea id="prompt" placeholder="描述主目標，例如：打造多 AI 工作台，讓 Gemini 負責實作、Perplexity 查證、Grok 審查…"></textarea>
+        <div class="composer-bottom"><div class="composer-options"><label class="select-wrap"><span class="option-label">分工模式</span><select id="mode"><option value="team">套娃分工 · 研究＋實作＋審查</option><option value="single">單一 AI 交辦</option></select></label><label class="workspace-wrap"><span class="option-label">本機專案資料夾</span><input id="workspace" placeholder="完整路徑，例如 C:\\Projects\\my-app" autocomplete="off"></label></div><button class="run-btn" id="runBtn"><span>建立分工</span><b>↗</b></button></div>
+        <div class="workspace-help">主任務會展開成任務樹：總控 → 研究、實作、審查。Gemini 在指定資料夾自動改檔；其他 AI 的進度與回覆也記在同一專案。</div>
+      </section>
+
+      <section class="section" id="agents"><div class="section-head"><div><h2>你的 AI 助理</h2><p>透過官方工具使用現有 Pro 訂閱</p></div><button class="text-btn" id="refreshBtn">更新連線狀態 ↻</button></div>
+        <div class="agent-grid">
+          <article class="agent-card gemini-card"><div class="agent-top"><div class="agent-symbol gem-symbol">✦</div><span class="agent-status" id="gemStatus"><i class="status-dot checking"></i>檢查中</span></div><h3>Gemini</h3><p class="agent-model">Google Antigravity</p><p class="agent-desc">直接在專案資料夾寫程式、建立檔案並執行任務。</p><div class="agent-foot"><span class="quota-tag">Pro 額度</span><button class="mini-btn" data-agent="gemini">交辦任務 <b>↗</b></button></div></article>
+          <article class="agent-card perplexity-card"><div class="agent-top"><div class="agent-symbol perplexity-symbol">◉</div><span class="agent-status ready"><i class="status-dot"></i>官方介面</span></div><h3>Perplexity</h3><p class="agent-model">Research</p><p class="agent-desc">使用 Pro 搜尋研究；從官方介面把結果帶回工作台。</p><div class="agent-foot"><span class="quota-tag">Pro 搜尋</span><button class="mini-btn" data-agent="perplexity">交辦任務 <b>↗</b></button></div></article>
+          <article class="agent-card grok-card"><div class="agent-top"><div class="agent-symbol grok-symbol">𝕏</div><span class="agent-status ready"><i class="status-dot"></i>官方介面</span></div><h3>Grok</h3><p class="agent-model">SuperGrok · Grok Bot</p><p class="agent-desc">透過 SuperGrok／Grok Bot 使用週額度，審查想法與內容。</p><div class="agent-foot"><span class="quota-tag">週額度</span><button class="mini-btn" data-agent="grok">交辦任務 <b>↗</b></button></div></article>
+        </div>
+      </section>
+
+      <section class="section tasks-section" id="tasks"><div class="section-head"><div><h2>任務分工樹</h2><p>展開主任務，追蹤每位 AI 的負責項目與狀態</p></div><button class="text-btn" id="clearView">只看進行中</button></div><div id="taskList" class="task-list"></div></section>
+      <footer>PRO AI WORKBENCH <span>·</span> 使用你已有的訂閱額度</footer>
+    </main>
+  </div>
+  <div class="toast" id="toast"></div>
+  <dialog id="resultDialog"><form method="dialog"><div class="dialog-top"><div><span class="eyebrow">TASK RESULT</span><h2 id="dialogTitle">任務結果</h2></div><button class="icon-btn">×</button></div><pre id="resultText"></pre><div id="pasteArea" class="paste-area hidden"><label>貼上 Perplexity / Grok 的回覆<textarea id="manualResult" placeholder="把官方介面的回答貼在這裡，儲存後就會加入任務紀錄。"></textarea></label><button type="button" class="run-btn" id="saveResult">儲存回覆 <b>✓</b></button></div><div class="dialog-actions"><button class="secondary-btn" value="close">關閉</button><button class="run-btn" type="button" id="copyPrompt">複製任務內容 <b>⧉</b></button></div></form></dialog>
+  <script src="/app.js" defer></script>
+</body>
+</html>
