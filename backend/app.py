@@ -34,7 +34,8 @@ def calculate_metrics(returns, timestamps=None, exit_reasons=None):
         kelly = None
 
     annualized_return = None
-    five_year_return = None
+    five_year_return = None  # Requires a validated five-year data coverage manifest.
+    observed_span_return = None
     observed_days = None
     if timestamps is not None:
         dates = pd.to_datetime(pd.Series(timestamps), errors="coerce", utc=True)
@@ -43,7 +44,7 @@ def calculate_metrics(returns, timestamps=None, exit_reasons=None):
             if observed_days > 0 and total_return > -1:
                 annualized_return = float((1.0 + total_return) ** (365.2425 / observed_days) - 1.0)
                 if observed_days >= 365.2425 * 4.9:
-                    five_year_return = total_return
+                    observed_span_return = total_return  # Date span alone does not prove full coverage.
 
     tp_count = sl_count = None
     if exit_reasons is not None and len(exit_reasons) == len(values):
@@ -55,6 +56,7 @@ def calculate_metrics(returns, timestamps=None, exit_reasons=None):
         "win_rate": win_rate,
         "total_return": total_return,
         "five_year_return": five_year_return,
+        "observed_span_return": observed_span_return,
         "annualized_return": annualized_return,
         "observed_days": observed_days,
         "max_drawdown": max_drawdown,
@@ -64,7 +66,7 @@ def calculate_metrics(returns, timestamps=None, exit_reasons=None):
         "tp_count": tp_count,
         "sl_count": sl_count,
         "return_basis": "sequential_compounded_fractional_trade_returns",
-        "five_year_verified": five_year_return is not None,
+        "five_year_verified": False,  # No verified coverage manifest is loaded.
     }
 
 
