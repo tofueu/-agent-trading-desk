@@ -22,7 +22,7 @@
 </div>
 <section class="top-metrics" aria-label="帳戶與任務狀態">
     <article class="card metric"><label>Balance / ETH</label><span class="tag">DEMO</span><div class="value">0.0178 <small>ETH</small></div><div class="sub">示範餘額 · 未連接錢包</div></article>
-    <article class="card metric"><label>Total P&amp;L / USD</label><span class="tag" id="pnlTag">NO RUNS</span><div class="value gain" id="totalPnL">$0.00</div><div class="sub" id="totalPnLSub">尚無實際回測資料</div><div class="sub" id="extraMetrics" style="margin-top:4px;"></div><div class="mini-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
+    <article class="card metric"><label>Compounded Return / %</label><span class="tag" id="pnlTag">NO RUNS</span><div class="value gain" id="totalPnL">$0.00</div><div class="sub" id="totalPnLSub">尚無實際回測資料</div><div class="sub" id="extraMetrics" style="margin-top:4px;"></div><div class="mini-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
     <article class="card metric"><label>Mission clock</label><div class="mission"><div><div class="value" id="timer">00:00</div><div class="sub" id="missionState">IDLE · DEMO ONLY</div></div><div class="mission-controls"><button class="btn dark" id="startBtn">Start demo</button><button class="btn" id="stopBtn">Stop</button></div></div></article>
     <article class="card metric"><label>Approval gate</label><div class="gate"><span class="gate-mark">!</span><span><b id="gateState">WAIT / REVIEW</b><small id="gateNote">人工確認 · 真實下單關閉</small></span></div></article>
   </section>
@@ -70,33 +70,36 @@ async function fetchMetrics() {
     } else if (data.status === 'success' && data.data.top_strategy) {
       const ts = data.data.top_strategy;
       const metrics = ts.metrics;
+      const numberOrNA = (value, digits = 2, scale = 1, suffix = '') =>
+        typeof value === 'number' && Number.isFinite(value)
+          ? (value * scale).toFixed(digits) + suffix : 'N/A';
 
       const elKelly = document.getElementById('kpiKelly');
-      if(elKelly) elKelly.textContent = metrics.kelly.toFixed(2);
+      if(elKelly) elKelly.textContent = numberOrNA(metrics.kelly);
 
       const elWinRate = document.getElementById('kpiWinRate');
-      if(elWinRate) elWinRate.textContent = (metrics.win_rate * 100).toFixed(1) + '%';
+      if(elWinRate) elWinRate.textContent = numberOrNA(metrics.win_rate, 1, 100, '%');
 
       const elPF = document.getElementById('kpiProfitFactor');
-      if(elPF) elPF.textContent = metrics.profit_factor.toFixed(2);
+      if(elPF) elPF.textContent = numberOrNA(metrics.profit_factor);
 
       const elMD = document.getElementById('kpiMaxDrawdown');
-      if(elMD) elMD.textContent = (metrics.max_drawdown * 100).toFixed(2) + '%';
+      if(elMD) elMD.textContent = numberOrNA(metrics.max_drawdown, 2, 100, '%');
 
       const elPnL = document.getElementById('totalPnL');
-      if(elPnL) elPnL.textContent = '$' + (metrics.total_return * 10000).toFixed(2);
+      if(elPnL) elPnL.textContent = numberOrNA(metrics.total_return, 2, 100, '%');
 
       const elPnLSub = document.getElementById('totalPnLSub');
-      if(elPnLSub) elPnLSub.textContent = `Rank 1: ${ts.name} (${ts.product} ${ts.timeframe})`;
+      if(elPnLSub) elPnLSub.textContent = `Compounded trade returns (not USD P&L): ${ts.name} / ${ts.product} / ${ts.timeframe}`;
 
       const elExtra = document.getElementById('extraMetrics');
-      if(elExtra) elExtra.textContent = `5Y Ret: ${(metrics.five_year_return*100).toFixed(1)}% | Ann: ${(metrics.annualized_return*100).toFixed(1)}% | Trades: ${metrics.trade_count} (TP:${metrics.tp_count} SL:${metrics.sl_count})`;
+      if(elExtra) elExtra.textContent = `Verified 5Y: ${numberOrNA(metrics.five_year_return, 1, 100, '%')} | Observed span: ${numberOrNA(metrics.observed_span_return, 1, 100, '%')} | Annualized: ${numberOrNA(metrics.annualized_return, 1, 100, '%')} | Trades: ${metrics.trade_count} (TP:${metrics.tp_count ?? 'N/A'} SL:${metrics.sl_count ?? 'N/A'})`;
 
       const previewEl = document.querySelector('.preview');
-      if (previewEl) previewEl.textContent = 'LIVE DATA';
+      if (previewEl) previewEl.textContent = 'CSV RETURNS · NOT LIVE';
 
       const pnlTagEl = document.getElementById('pnlTag');
-      if (pnlTagEl) pnlTagEl.textContent = 'LIVE';
+      if (pnlTagEl) pnlTagEl.textContent = 'CSV';
     } else {
       showToast('No matching strategies found');
     }
@@ -110,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ['strategyFilter', 'timeframeFilter', 'productFilter'].forEach(id => {
         const el = document.getElementById(id);
         if(el) el.addEventListener('change', () => {
-            if(document.getElementById('liveBadge').textContent === 'LIVE') {
+            if(document.getElementById('pnlTag').textContent === 'CSV') {
                 fetchMetrics();
             }
         });

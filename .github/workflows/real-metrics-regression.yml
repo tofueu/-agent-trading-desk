@@ -1,0 +1,25 @@
+name: Trading desk real-metrics regressions
+
+on:
+  push:
+    branches:
+      - audit/fail-closed-real-metrics-20261025
+  pull_request:
+    paths:
+      - "backend/app.py"
+      - "index.html"
+      - "tests/test_real_metrics_regression.py"
+      - ".github/workflows/real-metrics-regression.yml"
+
+jobs:
+  metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install offline test dependencies
+        run: python -m pip install flask flask-cors pandas numpy pytest
+      - name: Verify fail-closed metric semantics
+        run: python -m pytest -q tests/test_real_metrics_regression.py
