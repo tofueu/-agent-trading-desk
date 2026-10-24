@@ -69,7 +69,9 @@ def test_explicit_exit_reasons_and_observed_dates(client):
     m = response.json["data"]["top_strategy"]["metrics"]
     assert m["tp_count"] == 1
     assert m["sl_count"] == 1
-    assert m["five_year_return"] == pytest.approx(0.045)
+    assert m["five_year_return"] is None  # A date span is not verified data coverage.
+    assert m["observed_span_return"] == pytest.approx(0.045)
+    assert m["five_year_verified"] is False
     assert m["annualized_return"] is not None
     assert m["observed_days"] > 365 * 4.9
 
