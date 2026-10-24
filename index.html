@@ -93,7 +93,7 @@ async function fetchMetrics() {
       if(elPnLSub) elPnLSub.textContent = `Compounded trade returns (not USD P&L): ${ts.name} / ${ts.product} / ${ts.timeframe}`;
 
       const elExtra = document.getElementById('extraMetrics');
-      if(elExtra) elExtra.textContent = `5Y observed span: ${numberOrNA(metrics.five_year_return, 1, 100, '%')} | Annualized: ${numberOrNA(metrics.annualized_return, 1, 100, '%')} | Trades: ${metrics.trade_count} (TP:${metrics.tp_count ?? 'N/A'} SL:${metrics.sl_count ?? 'N/A'})`;
+      if(elExtra) elExtra.textContent = `Verified 5Y: ${numberOrNA(metrics.five_year_return, 1, 100, '%')} | Observed span: ${numberOrNA(metrics.observed_span_return, 1, 100, '%')} | Annualized: ${numberOrNA(metrics.annualized_return, 1, 100, '%')} | Trades: ${metrics.trade_count} (TP:${metrics.tp_count ?? 'N/A'} SL:${metrics.sl_count ?? 'N/A'})`;
 
       const previewEl = document.querySelector('.preview');
       if (previewEl) previewEl.textContent = 'CSV RETURNS · NOT LIVE';
