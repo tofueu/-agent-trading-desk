@@ -1,0 +1,28 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "交易回測控制台原型，用於設定回測條件、監控執行狀態及查看結果；目前為示範介面，尚未連接實際行情資料。",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tofueu/-agent-trading-desk.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/tofueu/-agent-trading-desk/issues"
+  },
+  "homepage": "https://github.com/tofueu/-agent-trading-desk#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "playwright": "^1.64.1"
+  }
+}
